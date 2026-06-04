@@ -249,25 +249,34 @@ const hadError = ref(false)
 const showError = ref(false)
 
 const currentLevel = computed(() => gameStore.currentLevel)
-const apiUrl = import.meta.env.VITE_API_URL || '/api'
-const backendBase = apiUrl.replace('/api', '')
+
+// Extrae base URL del backend correctamente
+// VITE_API_URL = 'http://localhost:3001/api'  =>  backendBase = 'http://localhost:3001'
+const apiUrl = import.meta.env.VITE_API_URL as string || 'http://localhost:3001/api'
+const backendBase = apiUrl.replace(/\/api$/, '')
 
 function assetUrl(path: string) {
-  if (!path) return '/placeholder-badge.png'
+  if (!path) return ''
   if (path.startsWith('http')) return path
   return `${backendBase}${path}`
 }
 
 function handleBadgeError(e: Event) {
   const img = e.target as HTMLImageElement
-  img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iIzFhMWEyZSIgc3Ryb2tlPSIjZmZkNzQwIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMCIgeT0iMjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmQ3NDAiIGZvbnQtc2l6ZT0iMTgiPuKY咲8vdGV4dD48L3N2Zz4='
+  img.style.display = 'none'
 }
 
+// IMPORTANTE: pasar background-image directamente en :style
+// Las CSS custom properties (--var) NO funcionan con :style en componentes Vue scoped
 const bgStyle = computed(() => {
   const img = currentLevel.value?.backgroundImage
-  if (!img) return {}
+  if (!img) return { backgroundColor: '#080c10' }
+  const fullUrl = assetUrl(img)
+  console.log('[MarsPy] Background URL:', fullUrl)
   return {
-    '--bg-image': `url("${backendBase}${img}")`,
+    backgroundImage: `url("${fullUrl}")`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   }
 })
 
@@ -420,6 +429,7 @@ function handleLogout() {
 </script>
 
 <style scoped>
+
 .game-screen {
   width: 100vw;
   height: 100vh;
@@ -427,30 +437,15 @@ function handleLogout() {
   display: flex;
   flex-direction: column;
   position: relative;
-  background: var(--color-dark);
-}
-
-.game-screen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  opacity: 0.08;
-  z-index: 0;
-  transition: opacity 1s;
+  /* background-image se aplica via :style binding en el template */
+  background-color: #080c10;
 }
 
 .bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(8, 12, 16, 0.95) 0%,
-    rgba(8, 12, 16, 0.85) 50%,
-    rgba(8, 12, 16, 0.95) 100%
-  );
+  /* Overlay muy ligero: solo un tinte oscuro, la imagen debe verse claramente */
+  background: rgba(8, 12, 16, 0.25);
   z-index: 1;
 }
 
@@ -462,7 +457,7 @@ function handleLogout() {
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background: rgba(13, 17, 23, 0.95);
+  background: rgba(8, 12, 16, 0.80);
   border-bottom: 1px solid rgba(0, 229, 255, 0.15);
   height: 52px;
 }
@@ -607,13 +602,15 @@ function handleLogout() {
   overflow: hidden;
 }
 
-/* Panel cards */
+/* Panel cards - glassmorphism: fondo semitransparente + blur */
 .panel-card {
-  background: rgba(13, 17, 23, 0.92);
-  border: 1px solid rgba(0, 229, 255, 0.12);
+  background: rgba(6, 10, 14, 0.55);
+  border: 1px solid rgba(0, 229, 255, 0.22);
   overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
-
 .panel-card.hal-success {
   border-color: rgba(0, 230, 118, 0.3);
   box-shadow: inset 0 0 30px rgba(0, 230, 118, 0.05);
@@ -781,7 +778,7 @@ function handleLogout() {
 
 .code-editor {
   flex: 1;
-  background: #060a0e;
+  background: rgba(4, 8, 12, 0.70);
   color: #00e5ff;
   font-family: var(--font-mono);
   font-size: 14px;

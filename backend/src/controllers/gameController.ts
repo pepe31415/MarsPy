@@ -156,3 +156,60 @@ export const buildHistory = async (req: Request, res: Response): Promise<void> =
     res.status(500).json({ error: 'Error al construir historial' });
   }
 };
+
+export const askHal = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { prompt } = req.body
+
+    if (!prompt) {
+      res.status(400).json({ error: 'Prompt requerido' })
+      return
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY
+    if (!apiKey) {
+      res.status(500).json({ error: 'API key no configurada en el servidor' })
+      return
+    }
+
+    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview'
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`
+
+    console.log('========== PROMPT A GEMINI ==========')
+    console.log(prompt)
+    console.log('=====================================')
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 4096,
+        },
+      }),
+    })
+
+    const data = await response.json() as any
+
+    if (!response.ok) {
+      console.error('Gemini error:', data)
+      res.status(response.status).json({ error: data.error?.message || 'Error de Gemini' })
+      return
+    }
+
+    const aiResponse = data.candidates[0].content.parts[0].text as string
+
+    console.log('========== RESPUESTA DE GEMINI ==========')
+    console.log(aiResponse)
+    console.log('=========================================')
+    console.log('Longitud respuesta:', aiResponse.length, 'caracteres')
+    console.log('Respuesta completa:', JSON.stringify(aiResponse))
+    
+    res.json({ response: aiResponse })
+  } catch (error) {
+    console.error('askHal error:', error)
+    res.status(500).json({ error: 'Error al consultar con HAL' })
+  }
+}

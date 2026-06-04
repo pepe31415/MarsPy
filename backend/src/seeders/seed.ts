@@ -4,29 +4,29 @@ import Level from '../models/Level';
 const levels = [
   {
     levelNumber: 0,
-    title: 'Bienvenido a la Estación Orbital',
+    title: 'Bienvenido a la Estación MarsPy',
     scenarioDescription: `# ¡Bienvenido, Cadete!
 
-Eres parte de la tripulación de la **Estación Orbital Sísifo**, una base avanzada de investigación a 400km sobre la Tierra. 
+Eres parte de la tripulación de la **Estación De Marte MarsPy**, una base avanzada de investigación a 225 millones de km de la Tierra. 
 
 Los sistemas de soporte vital de la estación están controlados por código Python. Tu misión es resolver los retos de programación que se presentarán en cada pantalla para mantener la estación operativa.
 
 ## Instrucciones
-1. Lee el reto de cada nivel con atención
+1. Lee el reto de cada nivel con atención. Lo encontrarás en la sección Briefing de Misión en cada pantalla.
 2. Escribe o corrige el código Python en el editor
 3. Pulsa **EJECUTAR** para probar tu código
 4. La IA HAL evaluará tu solución y te dará pistas si fallas
 5. Cuando HAL diga **ACCESO CONCEDIDO**, habrás superado el nivel
 
 ## Sistema de Puntuación
-- Cada nivel puntúa de **1 a 20**
+- Cada nivel puntúa de **1 a 20** puntos.
 - Cuanto más alta sea tu puntuación, el siguiente reto será más desafiante
 - Al superar un nivel recibirás una **insignia** de reconocimiento
 
 ¡Que comience la misión!`,
     initialCode: `# Pulsa INICIAR para comenzar tu misión`,
-    backgroundImage: '/backgrounds/intro.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Estás en la pantalla de introducción. Da la bienvenida al cadete de forma dramática y misteriosa. Máximo 3 frases.`,
+    backgroundImage: '/assets/backgrounds/intro.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Estás en la pantalla de introducción. Da la bienvenida al cadete de forma dramática y misteriosa. Responde en exactamente 3 frases. No más. Finalmente di "ACCESO CONCEDIDO" y añade [PUNTUACION: 20] al final donde 20 refleja la eficiencia que para la pantalla de inicio siempre será el máximo`,
     isLast: false,
     threshold: 1,
     nextLevelIfPass: 1,
@@ -55,8 +55,8 @@ Escribe un bucle \`for\` que imprima los números del 1 al 5, uno por línea.
 # Escribe tu bucle for aquí:
 
 `,
-    backgroundImage: '/backgrounds/level1.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Un cadete está intentando arreglar las bombas de oxígeno.
+    backgroundImage: '/assets/backgrounds/Nivel1_descompresion.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Un cadete está intentando arreglar las bombas de oxígeno.
 
 MISIÓN DEL CADETE: escribir un bucle 'for' en Python que imprima los números del 1 al 5, uno por línea.
 
@@ -96,8 +96,8 @@ media = sum(temperaturas) / len(temperaturas)
 
 print("Temperatura media:" media)
 `,
-    backgroundImage: '/backgrounds/level2.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Un cadete está corrigiendo el código de calibración de sensores.
+    backgroundImage: '/assets/backgrounds/Nivel2_mars_rover.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Un cadete está corrigiendo el código de calibración de sensores.
 
 MISIÓN DEL CADETE: Corregir el error de sintaxis en el código Python para que calcule e imprima correctamente "Temperatura media: 21.4".
 
@@ -141,8 +141,8 @@ print(debe_evacuar(35, 600))
 print(debe_evacuar(25, 900))
 print(debe_evacuar(22, 400))
 `,
-    backgroundImage: '/backgrounds/level3.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Un cadete está programando el sistema de emergencia.
+    backgroundImage: '/assets/backgrounds/Nivel3_escudo_antiradiacion.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Un cadete está programando el sistema de emergencia.
 
 MISIÓN DEL CADETE: Crear una función Python 'debe_evacuar(temperatura, co2)' que devuelva True si temperatura > 30 O co2 > 800, y False en caso contrario.
 
@@ -196,8 +196,8 @@ medicinas: 2
 # Filtra y muestra suministros con stock < 10 en orden alfabético
 print("Suministros críticos:")
 `,
-    backgroundImage: '/backgrounds/level4.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Un cadete está gestionando el inventario de emergencia.
+    backgroundImage: '/assets/backgrounds/Nivel4_invernadero.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Un cadete está gestionando el inventario de emergencia.
 
 MISIÓN DEL CADETE: Filtrar del diccionario 'suministros' los items con stock < 10 e imprimirlos en orden alfabético con formato "clave: valor".
 
@@ -244,8 +244,8 @@ print(fibonacci(8))
 
 print(fibonacci(8))
 `,
-    backgroundImage: '/backgrounds/level5.jpg',
-    aiPromptTemplate: `Eres HAL, la IA de la Estación Orbital Sísifo. Un cadete está programando el algoritmo de navegación de retorno a Tierra.
+    backgroundImage: '/assets/backgrounds/Nivel5_perforadora_hielo.jpg',
+    aiPromptTemplate: `Eres HAL, la IA de la Estación De Marte MarsPy. Un cadete está programando el algoritmo de navegación de retorno a Tierra.
 
 MISIÓN DEL CADETE: Implementar una función Python 'fibonacci(n)' que devuelva una lista con los primeros n números de Fibonacci.
 
@@ -272,7 +272,7 @@ INSTRUCCIONES:
     title: '¡Misión Completada!',
     scenarioDescription: `# 🏆 ¡FELICITACIONES, CADETE!
 
-Has completado todos los retos de programación y salvado la **Estación Orbital Sísifo**.
+Has completado todos los retos de programación y salvado la **Estación De Marte MarsPy**.
 
 Gracias a tus habilidades en Python, los sistemas de soporte vital están operativos, el inventario está sincronizado, y la trayectoria de retorno ha sido calculada.
 
@@ -284,7 +284,7 @@ Aquí puedes ver todas las insignias que ganaste en tu misión.
 *"La diferencia entre un buen programador y uno excelente es que el bueno sabe cómo hacer las cosas... y el excelente sabe cuántas veces no le salió a la primera."* — HAL`,
     initialCode: `# ¡Misión completada! No hay más retos.
 print("¡Gracias por jugar MarsPy!")`,
-    backgroundImage: '/backgrounds/victory.jpg',
+    backgroundImage: '/assets/backgrounds/victory.jpg',
     aiPromptTemplate: `Eres HAL. El cadete ha completado todos los retos. Felicítalo de forma épica y emotiva. Menciona que fue un honor tenerle como tripulante. Máximo 4 frases.`,
     isLast: true,
     threshold: 1,
@@ -325,6 +325,5 @@ async function seed() {
   }
 }
 
-import sequelize from '../config/database';
 
 seed();

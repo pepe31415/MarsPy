@@ -3,8 +3,6 @@
 declare global {
   interface Window {
     Sk: any
-    speechSynthesis: SpeechSynthesis
-    SpeechSynthesisUtterance: typeof SpeechSynthesisUtterance
   }
 }
 
@@ -74,7 +72,7 @@ export function speakText(text: string, lang = 'es-ES') {
     .replace(/#{1,6}\s/g, '')
     .replace(/\[PUNTUACION:\s*\d+\]/gi, '')
     .replace(/ACCESO CONCEDIDO/gi, 'Acceso concedido')
-    .substring(0, 300) // Limit speech length
+    .substring(0, 1000) // Limit speech length
 
   const utterance = new SpeechSynthesisUtterance(cleanText)
   utterance.lang = lang

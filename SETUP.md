@@ -15,7 +15,7 @@
 
 ```bash
 git clone <URL-DEL-REPO>
-cd breakout-code-game
+cd MarsPy
 ```
 
 ### 2. Configurar MySQL
@@ -105,9 +105,9 @@ cp frontend/.env.example frontend/.env
 # Arranca todo
 docker-compose up -d
 
-# Ejecuta las migraciones
-docker exec marspy-backend npm run db:migrate
-docker exec marspy-backend npm run db:seed
+# Ejecuta las migraciones desde el entorno de producción.
+docker exec marspy-backend npm run db:migrate:prod
+docker exec marspy-backend npm run db:seed:prod
 ```
 
 Abre: http://localhost:5173

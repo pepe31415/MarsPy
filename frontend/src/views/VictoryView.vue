@@ -12,7 +12,7 @@
 
       <div class="victory-text">
         <div class="mission-complete">MISIÓN COMPLETADA</div>
-        <h1 class="victory-title">HÉROE DE LA<br/>ESTACIÓN SÍSIFO</h1>
+        <h1 class="victory-title">HÉROE DE LA<br/>ESTACIÓN MarsPy</h1>
         <p class="victory-alias">Cadete {{ gameStore.player?.alias?.toUpperCase() }}</p>
       </div>
 
@@ -47,7 +47,7 @@
       <div class="hal-message">
         <div class="hal-message-prefix">HAL:</div>
         <p class="hal-message-text">
-          "Ha sido un honor servir junto a ti, cadete. La Estación Sísifo y la humanidad entera
+          "Ha sido un honor servir junto a ti, cadete. La Estación MarsPy y la humanidad entera
           te deben la vida. Ahora puedes descansar... si es que los programadores descansan alguna vez."
         </p>
       </div>
@@ -89,8 +89,11 @@ function initParticles() {
   const canvas = particlesCanvas.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')!
+
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
+  const width = canvas.width
+  const height = canvas.height
 
   const particles: Array<{
     x: number; y: number; vx: number; vy: number;
@@ -100,8 +103,8 @@ function initParticles() {
   function spawnParticle() {
     const colors = ['#00e5ff', '#ffd740', '#00e676', '#ff3d71', '#ffffff']
     particles.push({
-      x: Math.random() * canvas.width,
-      y: canvas.height + 10,
+      x: Math.random() * width,
+      y: height + 10,
       vx: (Math.random() - 0.5) * 2,
       vy: -(Math.random() * 3 + 1),
       size: Math.random() * 4 + 1,
@@ -114,7 +117,7 @@ function initParticles() {
   let frame = 0
   function draw() {
     ctx.fillStyle = 'rgba(8, 12, 16, 0.15)'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillRect(0, 0, width, height)
 
     if (frame % 3 === 0) spawnParticle()
     frame++
@@ -151,7 +154,7 @@ onMounted(async () => {
 
   setTimeout(() => {
     speakText(
-      'Ha sido un honor servir junto a ti, cadete. La Estación Sísifo y la humanidad entera te deben la vida.'
+      'Ha sido un honor servir junto a ti, cadete. La Estación MarsPy y la humanidad entera te deben la vida.'
     )
   }, 1000)
 })

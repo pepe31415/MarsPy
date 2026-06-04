@@ -17,7 +17,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production   # Ahora sí, solo prod
 
-COPY --from=builder /app/dist ./dist   # Solo el JS compilado
+# Solo el JS compilado
+COPY --from=builder /app/dist ./dist   
 COPY --from=builder /app/assets ./assets
 
 EXPOSE 3001

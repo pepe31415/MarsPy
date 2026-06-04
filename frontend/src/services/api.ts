@@ -113,32 +113,9 @@ export const gameApi = {
 }
 
 // --- Gemini AI ---
-const GEMINI_MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-1.5-flash'
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`
-
 export const geminiApi = {
   ask: async (prompt: string): Promise<string> => {
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY
-    if (!apiKey) throw new Error('VITE_GEMINI_API_KEY not configured')
-
-    const response = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 500,
-        },
-      }),
-    })
-
-    if (!response.ok) {
-      const err = await response.text()
-      throw new Error(`Gemini API error ${response.status}: ${err}`)
-    }
-
-    const data = await response.json()
-    return data.candidates[0].content.parts[0].text as string
+    const response = await api.post<{ response: string }>('/game/ask-hal', { prompt })
+    return response.data.response
   },
 }

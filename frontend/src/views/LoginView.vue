@@ -12,8 +12,8 @@
       </div>
 
       <h1 class="station-title">
-        <span class="title-prefix">ESTACIÓN ORBITAL</span>
-        <span class="title-main text-glitch">SÍSIFO</span>
+        <span class="title-prefix">ESTACIÓN EN MARTE</span>
+        <span class="title-main text-glitch">MarsPy</span>
       </h1>
 
       <p class="station-subtitle">SISTEMA DE ENTRENAMIENTO DE CADETES v4.2.1</p>
@@ -100,12 +100,15 @@ function initStars() {
   const canvas = starsCanvas.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')!
+
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
+  const width = canvas.width
+  const height = canvas.height
 
   const stars = Array.from({ length: 200 }, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
+    x: Math.random() * width,
+    y: Math.random() * height,
     size: Math.random() * 1.5,
     speed: Math.random() * 0.3 + 0.05,
     brightness: Math.random(),
@@ -113,7 +116,7 @@ function initStars() {
 
   function draw() {
     ctx.fillStyle = 'rgba(8, 12, 16, 0.2)'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillRect(0, 0, width, height)
 
     stars.forEach((star) => {
       star.brightness += (Math.random() - 0.5) * 0.05
@@ -123,9 +126,9 @@ function initStars() {
       ctx.fillStyle = `rgba(180, 220, 255, ${star.brightness * 0.8})`
       ctx.fill()
       star.y += star.speed
-      if (star.y > canvas.height) {
+      if (star.y > height) {
         star.y = 0
-        star.x = Math.random() * canvas.width
+        star.x = Math.random() * width
       }
     })
     animFrame = requestAnimationFrame(draw)

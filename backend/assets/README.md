@@ -1,6 +1,6 @@
 # Assets
 
-Place your game assets in these directories:
+Colocar los assets del juego en estos directorios:
 
 ## backgrounds/
 Background images for each level (JPG or PNG):

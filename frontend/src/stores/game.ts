@@ -108,8 +108,14 @@ export const useGameStore = defineStore('game', () => {
         .replace('{{ATTEMPT_NUMBER}}', String(nextAttemptNumber))
 
       // Call Gemini
+      console.log('========== PROMPT A GEMINI ==========')
+      console.log(prompt)
+      console.log('=====================================')
       const aiResponse = await geminiApi.ask(prompt)
       lastAiResponse.value = aiResponse
+      console.log('========== RESPUESTA DE GEMINI ==========')
+      console.log(aiResponse)
+      console.log('=========================================')
 
       // Parse score and passed
       const scoreMatch = aiResponse.match(/\[PUNTUACION:\s*(\d+)\]/i)
