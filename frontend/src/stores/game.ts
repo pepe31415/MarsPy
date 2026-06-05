@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { playerApi, levelApi, gameApi, geminiApi } from '@/services/api'
-import type { Player, Level, PlayerBadge, GameAttempt } from '@/services/api'
+import type { Player, Level, PlayerBadge } from '@/services/api'
 
 export const useGameStore = defineStore('game', () => {
   // --- State ---
   const player = ref<Player | null>(null)
   const currentLevel = ref<Level | null>(null)
   const badges = ref<PlayerBadge[]>([])
-  const attempts = ref<GameAttempt[]>([])
+  
   const historyText = ref('')
   const attemptCount = ref(0)
 
@@ -53,6 +53,11 @@ export const useGameStore = defineStore('game', () => {
       lastAiResponse.value = ''
       lastScore.value = null
       lastPassed.value = false
+      // Resetear lastCode al cargar un nuevo nivel
+      // para que initCode() use siempre el initialCode del nivel
+      if (player.value) {
+        player.value.lastCode = ''
+      }
 
       // Load history for this level
       await refreshHistory()
@@ -63,7 +68,11 @@ export const useGameStore = defineStore('game', () => {
       isLoading.value = false
     }
   }
-
+  async function goToLevel(levelNumber: number) {
+    if (!player.value) return
+    player.value.currentLevelNumber = levelNumber
+    await loadCurrentLevel()
+  }
   async function refreshHistory() {
     if (!player.value || !currentLevel.value) return
     try {
@@ -102,20 +111,27 @@ export const useGameStore = defineStore('game', () => {
       const currentHistory =
         historyText.value +
         `\n--- INTENTO ${nextAttemptNumber} ---\nCódigo escrito:\n${code}\nSalida consola:\n${consoleOutput}\n`
-
-      const prompt = currentLevel.value.aiPromptTemplate
+      const level = currentLevel.value
+      const prompt = level.aiPromptTemplate
         .replace('{{HISTORY}}', currentHistory)
         .replace('{{ATTEMPT_NUMBER}}', String(nextAttemptNumber))
+        .replace('{{CODE}}', code)
+        .replace('{{OUTPUT}}', consoleOutput)
+        .replace('{{ObjetivoDidactico}}', level.objetivoDidactico || '')
+        .replace('{{levelNumber}}', String(level.levelNumber))
+        .replace('{{title}}', level.title)
+        .replace('{{scenarioDescription}}', level.scenarioDescription)
+        .replace('{{initialCode}}', level.initialCode)
 
       // Call Gemini
-      console.log('========== PROMPT A GEMINI ==========')
-      console.log(prompt)
-      console.log('=====================================')
+      //console.log('========== PROMPT A GEMINI ==========')
+      //console.log(prompt)
+      //console.log('=====================================')
       const aiResponse = await geminiApi.ask(prompt)
       lastAiResponse.value = aiResponse
-      console.log('========== RESPUESTA DE GEMINI ==========')
-      console.log(aiResponse)
-      console.log('=========================================')
+      //console.log('========== RESPUESTA DE GEMINI ==========')
+      //console.log(aiResponse)
+      //console.log('=========================================')
 
       // Parse score and passed
       const scoreMatch = aiResponse.match(/\[PUNTUACION:\s*(\d+)\]/i)
@@ -146,7 +162,7 @@ export const useGameStore = defineStore('game', () => {
         player.value.totalScore = data.totalScore
         if (passed && data.nextLevelNumber !== null) {
           player.value.currentLevelNumber = data.nextLevelNumber
-          player.value.lastCode = code
+          // No guardamos lastCode al pasar de nivel, loadCurrentLevel lo resetea
         }
       }
 
@@ -179,7 +195,6 @@ export const useGameStore = defineStore('game', () => {
     player.value = null
     currentLevel.value = null
     badges.value = []
-    attempts.value = []
     historyText.value = ''
     lastAiResponse.value = ''
     lastScore.value = null
@@ -191,7 +206,6 @@ export const useGameStore = defineStore('game', () => {
     player,
     currentLevel,
     badges,
-    attempts,
     historyText,
     attemptCount,
     isLoading,
@@ -210,6 +224,7 @@ export const useGameStore = defineStore('game', () => {
     loadBadges,
     submitCode,
     advanceToNextLevel,
+    goToLevel,
     logout,
   }
 })

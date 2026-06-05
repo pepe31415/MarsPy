@@ -20,8 +20,10 @@ export interface Player {
 export interface Level {
   id: number
   levelNumber: number
+  objetivoDidactico: string
   title: string
   scenarioDescription: string
+  scenarioSpeech: string | null
   initialCode: string
   backgroundImage: string
   aiPromptTemplate: string
@@ -29,8 +31,10 @@ export interface Level {
   threshold: number
   nextLevelIfPass: number | null
   nextLevelIfFail: number | null
-  badgeImage: string
-  badgeName: string
+  badgeThresholdImage: string | null
+  badgeThresholdName: string | null
+  badgeCompletionImage: string | null
+  badgeCompletionName: string | null
 }
 
 export interface PlayerBadge {
@@ -39,6 +43,7 @@ export interface PlayerBadge {
   levelNumber: number
   badgeImage: string
   badgeName: string
+  badgeType: 'threshold' | 'completion'
   score: number
   earnedAt: string
 }

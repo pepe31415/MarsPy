@@ -4,8 +4,10 @@ import sequelize from '../config/database';
 export interface LevelAttributes {
   id: number;
   levelNumber: number;
+  objetivoDidactico: string | null;
   title: string;
   scenarioDescription: string;
+  scenarioSpeech: string | null;
   initialCode: string;
   backgroundImage: string;
   aiPromptTemplate: string;
@@ -13,8 +15,10 @@ export interface LevelAttributes {
   threshold: number;
   nextLevelIfPass: number | null;
   nextLevelIfFail: number | null;
-  badgeImage: string;
-  badgeName: string;
+  badgeThresholdImage?: string | null;
+  badgeThresholdName?: string | null;
+  badgeCompletionImage?: string | null;
+  badgeCompletionName?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -24,8 +28,10 @@ export interface LevelCreationAttributes extends Optional<LevelAttributes, 'id' 
 class Level extends Model<LevelAttributes, LevelCreationAttributes> implements LevelAttributes {
   public id!: number;
   public levelNumber!: number;
+  public objetivoDidactico!: string | null;
   public title!: string;
   public scenarioDescription!: string;
+  public scenarioSpeech!: string | null;
   public initialCode!: string;
   public backgroundImage!: string;
   public aiPromptTemplate!: string;
@@ -33,8 +39,10 @@ class Level extends Model<LevelAttributes, LevelCreationAttributes> implements L
   public threshold!: number;
   public nextLevelIfPass!: number | null;
   public nextLevelIfFail!: number | null;
-  public badgeImage!: string;
-  public badgeName!: string;
+  public badgeThresholdImage!: string | null;
+  public badgeThresholdName!: string | null;
+  public badgeCompletionImage!: string | null;
+  public badgeCompletionName!: string | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -52,6 +60,12 @@ Level.init(
       unique: true,
       field: 'level_number',
     },
+    objetivoDidactico: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue: null,
+      field: 'objetivo_didactico',
+    },
     title: {
       type: DataTypes.STRING(200),
       allowNull: false,
@@ -60,6 +74,11 @@ Level.init(
       type: DataTypes.TEXT,
       allowNull: false,
       field: 'scenario_description',
+    },
+    scenarioSpeech: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      field: 'scenario_speech',
     },
     initialCode: {
       type: DataTypes.TEXT,
@@ -97,17 +116,29 @@ Level.init(
       allowNull: true,
       field: 'next_level_if_fail',
     },
-    badgeImage: {
+    badgeThresholdImage: {
       type: DataTypes.STRING(500),
-      allowNull: false,
-      defaultValue: '/badges/default.png',
-      field: 'badge_image',
+      allowNull: true,
+      defaultValue: null,
+      field: 'badge_threshold_image',
     },
-    badgeName: {
+    badgeThresholdName: {
       type: DataTypes.STRING(200),
-      allowNull: false,
-      defaultValue: 'Aprendiz',
-      field: 'badge_name',
+      allowNull: true,
+      defaultValue: null,
+      field: 'badge_threshold_name',
+    },
+    badgeCompletionImage: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+      defaultValue: null,
+      field: 'badge_completion_image',
+    },
+    badgeCompletionName: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+      defaultValue: null,
+      field: 'badge_completion_name',
     },
   },
   {

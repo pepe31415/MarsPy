@@ -5,6 +5,7 @@ export interface PlayerBadgeAttributes {
   id: number;
   playerId: number;
   levelNumber: number;
+  badgeType: 'threshold' | 'completion';
   badgeImage: string;
   badgeName: string;
   score: number;
@@ -19,6 +20,7 @@ class PlayerBadge extends Model<PlayerBadgeAttributes, PlayerBadgeCreationAttrib
   public id!: number;
   public playerId!: number;
   public levelNumber!: number;
+  public badgeType!: 'threshold' | 'completion';
   public badgeImage!: string;
   public badgeName!: string;
   public score!: number;
@@ -47,6 +49,12 @@ PlayerBadge.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'level_number',
+    },
+    badgeType: {
+      type: DataTypes.ENUM('threshold', 'completion'),
+      allowNull: false,
+      defaultValue: 'completion',
+      field: 'badge_type',
     },
     badgeImage: {
       type: DataTypes.STRING(500),

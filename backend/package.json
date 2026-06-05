@@ -11,7 +11,8 @@
     "db:seed": "ts-node src/seeders/seed.ts",
     "db:migrate:prod": "node dist/migrations/migrate.js",
     "db:seed:prod": "node dist/seeders/seed.js",
-    "db:reset": "ts-node src/migrations/reset.ts"
+    "db:reset": "ts-node src/migrations/reset.ts",
+    "db:reset:prod": "node dist/migrations/reset.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

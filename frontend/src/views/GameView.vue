@@ -1,5 +1,21 @@
 <template>
-  <div class="game-screen" :style="bgStyle">
+  <!-- Briefing de nivel — pantalla completa antes de cada nivel -->
+  <LevelBriefing
+    v-if="showBriefing"
+    :key="currentLevel?.levelNumber"
+    :levelNumber="currentLevel?.levelNumber ?? 0"
+    :title="currentLevel?.title ?? ''"
+    :scenarioDescription="currentLevel?.scenarioDescription ?? ''"
+    :scenarioSpeech="currentLevel?.scenarioSpeech ?? null"
+    :backgroundImage="currentLevel?.backgroundImage ?? ''"
+    :playerAlias="gameStore.player?.alias?.toUpperCase() ?? ''"
+    :totalScore="gameStore.player?.totalScore ?? 0"
+    :backendBase="backendBase"
+    @start="startLevel"
+    @startFromZero="startFromZero"
+  />
+
+  <div v-else class="game-screen" :style="bgStyle">
     <!-- Background overlay -->
     <div class="bg-overlay" />
 
@@ -122,6 +138,7 @@
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
+            :disabled="isSpeaking"
             @keydown.tab.prevent="handleTab"
           />
         </div>
@@ -130,7 +147,7 @@
         <div class="action-row">
           <button
             class="action-btn run-btn"
-            :disabled="isExecuting || gameStore.isAiThinking"
+            :disabled="isExecuting || gameStore.isAiThinking || isSpeaking"
             @click="runCode"
           >
             <v-icon size="16">mdi-play</v-icon>
@@ -139,7 +156,7 @@
 
           <button
             class="action-btn reset-btn"
-            :disabled="isExecuting"
+            :disabled="isExecuting || isSpeaking"
             @click="resetCode"
           >
             <v-icon size="16">mdi-refresh</v-icon>
@@ -222,7 +239,8 @@
         <v-btn variant="text" @click="showError = false">Cerrar</v-btn>
       </template>
     </v-snackbar>
-  </div>
+  </div><!-- end .game-screen -->
+
 </template>
 
 <script setup lang="ts">
@@ -231,9 +249,12 @@ import { useRouter } from 'vue-router'
 import { useGameStore } from '@/stores/game'
 import { executePython, speakText, parseAiResponse } from '@/services/python'
 import type { PlayerBadge } from '@/services/api'
+import LevelBriefing from '@/components/LevelBriefing.vue'
 
 const router = useRouter()
 const gameStore = useGameStore()
+
+const isSpeaking = ref(false) // estado de que el speech está hablando.
 
 const currentCode = ref('')
 const consoleOutput = ref('')
@@ -247,6 +268,7 @@ const showPassOverlay = ref(false)
 const newBadge = ref<PlayerBadge | null>(null)
 const hadError = ref(false)
 const showError = ref(false)
+const showBriefing = ref(true)  // mostrar briefing antes de cada nivel
 
 const currentLevel = computed(() => gameStore.currentLevel)
 
@@ -322,7 +344,17 @@ watch(() => gameStore.currentLevel, () => {
   hadError.value = false
   nextLevelNumber.value = null
   showPassOverlay.value = false
+  showBriefing.value = true  // mostrar briefing al cambiar de nivel
 })
+
+// Llamado desde LevelBriefing cuando el jugador pulsa "INICIAR NIVEL"
+function startLevel() {
+  showBriefing.value = false
+}
+async function startFromZero() {
+ await gameStore.goToLevel(1)
+ // showBriefing se resetea automáticamente en el watch
+}
 
 function initCode() {
   const savedCode = gameStore.player?.lastCode
@@ -384,10 +416,12 @@ async function runCode() {
       nextLevelNumber.value = submission.nextLevelNumber
       hadError.value = !passed
 
-      // Speak HAL response
-      speakText(cleanText)
+      // Speak HAL response y esperar a que termine
+      isSpeaking.value = true
+      await speakText(cleanText)
+      isSpeaking.value = false
 
-      // Check for new badge
+      // Ahora sí mostrar el overlay de puntuación
       if (passed) {
         const prevBadgeCount = gameStore.badges.length
         await gameStore.loadBadges()
