@@ -349,6 +349,10 @@ watch(() => gameStore.currentLevel, () => {
 
 // Llamado desde LevelBriefing cuando el jugador pulsa "INICIAR NIVEL"
 function startLevel() {
+  if (gameStore.currentLevel?.levelNumber === 200) {
+    router.push('/victory')
+    return
+  }
   showBriefing.value = false
 }
 async function startFromZero() {
@@ -442,6 +446,7 @@ async function goToNextLevel() {
   await proceedToNext()
 }
 
+
 async function proceedToNext() {
   showPassOverlay.value = false
   if (!gameStore.player) return
@@ -449,12 +454,16 @@ async function proceedToNext() {
   const next = nextLevelNumber.value ?? gameStore.player.currentLevelNumber
 
   if (next === 200) {
-    router.push('/victory')
+    // Carga el nivel 200 para tener su backgroundImage y scenarioSpeech
+    await gameStore.goToLevel(200)
+    // El watch de currentLevel pondrá showBriefing = true automáticamente
+    // y mostrará el briefing del nivel 200 antes de ir a victory
     return
   }
 
   await gameStore.advanceToNextLevel()
 }
+
 
 function handleLogout() {
   gameStore.logout()

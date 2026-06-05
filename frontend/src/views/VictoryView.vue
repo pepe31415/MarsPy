@@ -1,5 +1,5 @@
 <template>
-  <div class="victory-screen">
+  <div class="victory-screen" :style="bgStyle">
     <canvas ref="particlesCanvas" class="particles-canvas" />
 
     <div class="victory-content">
@@ -43,14 +43,14 @@
         </div>
       </div>
 
-      <!-- HAL final message -->
+      <!-- HAL final message 
       <div class="hal-message">
         <div class="hal-message-prefix">HAL:</div>
         <p class="hal-message-text">
           "Ha sido un honor servir junto a ti, cadete. La Estación MarsPy y la humanidad entera
           te deben la vida. Ahora puedes descansar... si es que los programadores descansan alguna vez."
         </p>
-      </div>
+      </div> -->
 
       <button class="play-again-btn" @click="playAgain">
         <v-icon size="18">mdi-restart</v-icon>
@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGameStore } from '@/stores/game'
 import { speakText } from '@/services/python'
@@ -151,12 +151,6 @@ onMounted(async () => {
   }
   await gameStore.loadBadges()
   initParticles()
-
-  setTimeout(() => {
-    speakText(
-      'Ha sido un honor servir junto a ti, cadete. La Estación MarsPy y la humanidad entera te deben la vida.'
-    )
-  }, 1000)
 })
 
 onUnmounted(() => {
@@ -167,6 +161,18 @@ function playAgain() {
   gameStore.logout()
   router.push('/')
 }
+// Para poner estilo al fondo de la imagen
+const bgStyle = computed(() => {
+  const img = gameStore.currentLevel?.backgroundImage
+  if (!img) return {}
+  const apiUrl = import.meta.env.VITE_API_URL as string || 'http://localhost:3001/api'
+  const backendBase = apiUrl.replace(/\/api$/, '')
+  return {
+    backgroundImage: `url("${backendBase}${img}")`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }
+})
 </script>
 
 <style scoped>
@@ -180,16 +186,22 @@ function playAgain() {
   background: #080c10;
   position: relative;
 }
-
+.victory-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 12, 16, 0.75);
+  z-index: 0;
+}
 .particles-canvas {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1; /* encima de las particulas */
 }
 
 .victory-content {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* encima de las particulas */
   display: flex;
   flex-direction: column;
   align-items: center;

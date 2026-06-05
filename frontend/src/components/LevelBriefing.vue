@@ -35,7 +35,7 @@
     <div class="briefing-body">
 
       <!-- Level badge + number — oculto en nivel 0 (intro) -->
-      <div v-if="levelNumber !== 0" class="level-badge">
+      <div v-if="levelNumber !== 0 && levelNumber !== 200" class="level-badge">
         <span class="level-badge-prefix">NIVEL</span>
         <span class="level-badge-number">{{ levelNumber }}</span>
       </div>
@@ -57,10 +57,12 @@
       <div v-if="showButton" class="briefing-footer">
         <button class="start-btn" @click="handleStart">
           <span class="start-btn-icon">▶</span>
-          INICIAR NIVEL
+          {{ levelNumber === 200 ? 'CONDECORACIONES OBTENIDAS' : 'INICIAR NIVEL' }}
           <span class="start-btn-glow" />
         </button>
-        <p class="start-hint">Pulsa para comenzar la misión</p>
+        <p class="start-hint">
+          {{ levelNumber === 200 ? 'Pulsa para ver las condecoraciones obtenidas' : 'Pulsa para comenzar la misión' }}
+        </p>
       </div>
     </transition>
 

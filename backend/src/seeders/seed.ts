@@ -426,18 +426,21 @@ Después, se debe llamar a la función e imprimir el resultado.
   {
     levelNumber: 200,
     title: '¡Misión Completada!',
-    scenarioDescription: `# 🏆 ENHORABUENA, CADETE!
+    scenarioDescription: `# ENHORABUENA CADETE!
 
-Has completado todos los retos de programación y salvado la **Estación De Marte MarsPy**.
+Has completado todos los retos de programación y salvado la **Estación  MarsPy**.
 
 Gracias a tus habilidades en Python, los sistemas de soporte vital están operativos, el inventario está sincronizado, y la trayectoria de retorno ha sido calculada.
 
 La base y su tripulación están a salvo. Eres un héroe del código.
+`,
+    scenarioSpeech: `# ENHORABUENA CADETE![PAUSA_LARGA]
 
-## Tu Historial de Misión
-Aquí puedes ver todas las insignias que ganaste en tu misión.
+Has completado todos los retos de programación y salvado la **Estación  MarsPy**.
 
-*"La diferencia entre un buen programador y uno excelente es que el bueno sabe cómo hacer las cosas... y el excelente sabe cuántas veces no le salió a la primera."* — HAL`,
+Gracias a tus habilidades en Python, los sistemas de soporte vital están operativos, el inventario está sincronizado, y la trayectoria de retorno ha sido calculada.
+
+La base y su tripulación están a salvo. Eres un héroe del código.`,
     initialCode: `# ¡Misión completada! No hay más retos.
 print("¡Gracias por jugar a MarsPy!")`,
     backgroundImage: '/assets/backgrounds/victory.jpg',

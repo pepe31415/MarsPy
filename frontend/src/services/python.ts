@@ -82,7 +82,7 @@ function prepararTextoParaVoz(text: string): string {
     .replace(/\]/g, ' ')
     .replace(/\{/g, ' ')
     .replace(/\}/g, ' ')
-    .replace(/==/g, 'es igual a')
+    .replace(/==/g, 'doble igual')
     .replace(/!=/g, 'es distinto de')
     .replace(/>=/g, 'mayor o igual que')
     .replace(/<=/g, 'menor o igual que')

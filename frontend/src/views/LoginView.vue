@@ -75,6 +75,8 @@
           HAL ONLINE
         </span>
       </div>
+      <!-- Versión -->
+      <div class="version-tag">v{{ appVersion }} · {{ buildDate }}</div>
     </div>
   </div>
 </template>
@@ -169,6 +171,13 @@ async function handleLogin() {
     isLoading.value = false
   }
 }
+
+const appVersion = __APP_VERSION__
+const buildDate = new Date().toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+})
 </script>
 
 <style scoped>
@@ -433,5 +442,13 @@ async function handleLogin() {
   background: #ff3d71;
   box-shadow: 0 0 6px #ff3d71;
   animation: pulse-glow 0.8s infinite;
+}
+
+.version-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(0, 229, 255, 0.25);
+  letter-spacing: 0.15em;
+  margin-top: 4px;
 }
 </style>
