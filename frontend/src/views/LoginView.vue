@@ -18,7 +18,34 @@
 
       <p class="station-subtitle">SISTEMA DE ENTRENAMIENTO DE CADETES v4.2.1</p>
 
-      <div class="login-form">
+      <!-- Pantalla de password -->
+      <div v-if="!accessGranted" class="login-form">
+        <div class="form-label">CÓDIGO DE ACCESO</div>
+
+        <div class="input-wrapper">
+          <span class="input-prefix">&gt;_</span>
+          <input
+            v-model="accessPassword"
+            type="password"
+            class="cadete-input"
+            placeholder="Introduce el código..."
+            @keyup.enter="checkPassword"
+          />
+        </div>
+
+        <div v-if="passwordError" class="error-message">
+          <v-icon size="16" color="error">mdi-alert-circle</v-icon>
+          {{ passwordError }}
+        </div>
+
+        <button class="launch-btn" @click="checkPassword">
+          <v-icon size="18">mdi-lock-open</v-icon>
+          VERIFICAR ACCESO
+        </button>
+      </div>
+
+      <!-- Pantalla de alias — solo visible si la password es correcta -->
+      <div v-else class="login-form">
         <div class="form-label">IDENTIFICACIÓN DE CADETE</div>
 
         <div class="input-wrapper">
@@ -96,6 +123,10 @@ const isScanning = ref(false)
 const error = ref('')
 const starsCanvas = ref<HTMLCanvasElement | null>(null)
 let animFrame: number
+// Estado de acceso
+const accessPassword = ref('')
+const accessGranted = ref(false)
+const passwordError = ref('')
 
 // Star field animation
 function initStars() {
@@ -178,6 +209,17 @@ const buildDate = new Date().toLocaleDateString('es-ES', {
   month: 'short',
   day: 'numeric'
 })
+
+function checkPassword() {
+  const correct = import.meta.env.VITE_ACCESS_PASSWORD
+  if (accessPassword.value === correct) {
+    accessGranted.value = true
+    passwordError.value = ''
+  } else {
+    passwordError.value = 'Contraseña incorrecta'
+    accessPassword.value = ''
+  }
+}
 </script>
 
 <style scoped>
