@@ -126,3 +126,12 @@ Cada nivel tiene un `threshold` (1-20). Si la puntuación obtenida ≥ threshold
 | POST | `/api/game/submit` | Enviar código para evaluación |
 | GET | `/api/game/progress/:playerId` | Progreso del jugador |
 | GET | `/api/game/badges/:playerId` | Insignias obtenidas |
+
+
+## Licencia
+
+[![CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+MarsPy está publicado bajo licencia [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+© 2025 Jose Maria Castillo

@@ -104,7 +104,21 @@
       </div>
       <!-- Versión -->
       <div class="version-tag">v{{ appVersion }} · {{ buildDate }}</div>
-    </div>
+      <div class="version-tag">v{{ appVersion }}</div>
+
+      <!-- Licencia -->
+      <div class="license-tag">
+        <!-- <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> -->
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">
+          <img
+            src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png"
+            alt="CC BY-NC-SA 4.0"
+            style="vertical-align: middle; opacity: 0.4;"
+          />
+        </a>
+        · © 2026 Jose Maria Castillo
+      </div>
+    </div> <!-- Cierre login-panel -->
   </div>
 </template>
 
@@ -492,5 +506,22 @@ function checkPassword() {
   color: rgba(0, 229, 255, 0.25);
   letter-spacing: 0.15em;
   margin-top: 4px;
+}
+.license-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: rgba(0, 229, 255, 0.2);
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+.license-tag a {
+  color: rgba(0, 229, 255, 0.35);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.license-tag a:hover {
+  color: rgba(0, 229, 255, 0.7);
 }
 </style>
