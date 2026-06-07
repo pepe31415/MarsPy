@@ -1,4 +1,4 @@
-# 🛠️ Guía de Instalación Paso a Paso
+# Guía de Instalación Paso a Paso
 
 ## Prerequisitos
 
@@ -54,6 +54,10 @@ NODE_ENV=development
 ```
 
 Ejecuta las migraciones y el seeder:
+Las migraciones hace que el modelo definido en Typescript se sincronize con las tablas en la base de datos, algo que hace
+el ORM Sequelize elegido automáticamente.
+El seeder crea los registros iniciales en la base de datos para tener un juego cargado. Ese juego se ha definido en el fichero 
+src/seeders/seed.ts
 ```bash
 npm run db:migrate
 npm run db:seed
@@ -78,7 +82,7 @@ Crea el archivo `.env`:
 cp .env.example .env
 ```
 
-Edita `frontend/.env`:
+Edita `frontend/.env` (por velocidad recomendamos usar modelos ligeros como el gemini-1.5-flash):
 ```env
 VITE_API_URL=http://localhost:3001/api
 VITE_GEMINI_API_KEY=AIza...TU_CLAVE_REAL_AQUI
@@ -123,7 +127,8 @@ Coloca tus imágenes en:
 Los nombres de archivo deben coincidir con los configurados en la BD.
 Ver `backend/assets/README.md` para la lista completa.
 
-Para generar placeholders SVG rápidos:
+Si no se tienen insignias badges generadas, se pueden generar unas básicas automaticamente con este script
+que generará ficheros de imágenes vectoriales svg:
 ```bash
 node scripts/generate-placeholders.js
 ```
@@ -141,14 +146,16 @@ Edita `backend/src/seeders/seed.ts` y añade objetos al array `levels`:
   title: 'Mi Nuevo Nivel',
   scenarioDescription: `## Descripción con **markdown**`,
   initialCode: `# Código inicial\nprint("hello")`,
-  backgroundImage: '/backgrounds/level6.jpg',
+  backgroundImage: '/backgrounds/Nivel6_ejemplo.jpg',
   aiPromptTemplate: `Eres HAL... HISTORIAL: {{HISTORY}} ...`,  // Usa {{HISTORY}} y {{ATTEMPT_NUMBER}}
-  isLast: false,
+  isLast: false,            // Si se trata del último nivel, y una vez superado el juego termina.
   threshold: 14,            // Puntuación mínima para ir al nivel "alto"
   nextLevelIfPass: 8,       // Si score >= threshold
   nextLevelIfFail: 7,       // Si score < threshold
-  badgeImage: '/badges/nuevo.png',
-  badgeName: 'Mi Insignia',
+  badgeThresholdImage: '/badges/Insignia_n6_excelente.png', // Insignia ganada al pasar el nivel con puntos por encima del umbral
+  badgeThresholdName: 'Mi Insignia Excelente', // Nombre de la insignia por superar por encima del umbral el nivel
+  badgeCompletionImage: '/badges/Insignia_n6.png', // Insignia ganada al completar el nivel
+  badgeCompletionName: 'Mi Insignia', // Nombre de la insignia ganada al completar el nivel
 }
 ```
 
@@ -159,7 +166,7 @@ npm run db:seed
 
 ---
 
-## Estructura del Árbol de Niveles
+## Ejemplo básico de la estructura del Árbol de Niveles
 
 ```
 Nivel 0 (Intro)
@@ -188,14 +195,15 @@ Nivel 0 (Intro)
 | `JWT_SECRET` | Clave JWT (no usada aún, futura auth) | — |
 | `NODE_ENV` | Entorno | `development` |
 | `FRONTEND_URL` | URL del frontend para CORS | `*` |
+| `GEMINI_API_KEY` | API Key de las llamadas a Gemini AI | `API Key` |
+| `GEMINI_MODEL`| Modelo a usar. | `gemini-3-flash-preview`|
 
 ### Frontend
 
 | Variable | Descripción |
 |----------|-------------|
 | `VITE_API_URL` | URL base de la API backend |
-| `VITE_GEMINI_API_KEY` | Tu clave de Google Gemini |
-| `VITE_GEMINI_MODEL` | Modelo Gemini a usar (`gemini-1.5-flash` recomendado) |
+| `VITE_ACCESS_PASSWORD`| Password basica de acceso al juego. | `tu_password_basica_de_acceso`|
 
 ---
 
@@ -208,7 +216,7 @@ Nivel 0 (Intro)
 → Añade tu clave real de Gemini en `frontend/.env` y reinicia el servidor de desarrollo.
 
 **Python no ejecuta (Skulpt no disponible)**
-→ Skulpt se carga desde CDN. Verifica tu conexión a internet o que `index.html` tenga los scripts de Skulpt.
+→ Skulpt se carga desde Internet, desde un CDN. Verifica tu conexión a internet o que `index.html` tenga los scripts de Skulpt.
 
 **Error 404 en `/api/levels/0`**
 → Ejecuta `npm run db:seed` en el backend para cargar los niveles iniciales.

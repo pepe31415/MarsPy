@@ -1,18 +1,17 @@
 #!/usr/bin/env node
-// Run this script to generate placeholder badge and background SVGs
+// Opcionalmente si aún no se disponen de las imágenes de insignias, este script tiene como propósito generar badges SVG
+// de prueba automáticamente cuando aún no se tienen las imágenes reales de las insignias.
 // node generate-placeholders.js
 
 const fs = require('fs')
 const path = require('path')
 
 const badges = [
-  { file: 'welcome.png', name: '🚀', color: '#00e5ff' },
-  { file: 'oxygen.png', name: '💨', color: '#00bcd4' },
-  { file: 'sensor.png', name: '📡', color: '#4caf50' },
-  { file: 'emergency.png', name: '🚨', color: '#ff5722' },
-  { file: 'inventory.png', name: '📦', color: '#ff9800' },
-  { file: 'navigator.png', name: '🌟', color: '#ffd740' },
-  { file: 'hero.png', name: '🏆', color: '#ffd700' },
+  { file: 'Insignia_n1_n2.png', name: '💨', color: '#00bcd4' },
+  { file: 'Insignia_n3_n4.png', name: '🚨', color: '#4caf50' },
+  { file: 'Insignia_n5_n6.png', name: '📦', color: '#ff5722' },
+  { file: 'Insignia_n7_n8.png', name: '📡', color: '#ff9800' },
+  { file: 'Insignia_n9.png', name: '🏆', color: '#ffd740' },
 ]
 
 badges.forEach(({ file, name, color }) => {
