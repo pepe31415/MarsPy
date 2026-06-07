@@ -1,13 +1,15 @@
-# MarsPy - Juego Educativo de Programación apoyado con IA
-# Juego apoyado por IA para la enseñanza-aprendizaje de Python que es parte del contenido de 
-# el Trabajo Fin de Titulación de el Master Universitario en Formación del Profesorado de Educación Secundaria Obligatoria y
-# Bachillerato, Formación Profesional y Enseñanzas de Idiomas, titulado "Gamificación orientada por Inteligencia Artificial para
-# la enseñanza básica de Python".
-# Con la configuración inicial el juego está orientado a la ayuda para dar el salto de la programación por bloques a la programación
-# textual a alumnos de 1º de Bachillerato (Asignatura de Ciencias de la computación I , en la Comunidad de Madrid)
-# UNAM. Universidad del Atlántico Medio
-# Autor: José María Castillo Lara
-# 2026
+# MarsPy. Juego Educativo de Programación apoyado con IA
+Juego apoyado por IA para la enseñanza-aprendizaje de Python que es parte del contenido de 
+el Trabajo Fin de Titulación de el Master Universitario en Formación del Profesorado de Educación Secundaria Obligatoria y
+Bachillerato, Formación Profesional y Enseñanzas de Idiomas, titulado "Gamificación orientada por Inteligencia Artificial para
+la enseñanza básica de Python".
+
+Con la configuración inicial el juego está orientado a la ayuda para dar el salto de la programación por bloques a la programación
+textual a alumnos de 1º de Bachillerato (Asignatura de Ciencias de la computación I , en la Comunidad de Madrid)
+
+UNAM. Universidad del Atlántico Medio
+Autor: José María Castillo Lara
+2026
 
 Un juego educativo tipo breakout donde cada nivel presenta un reto de programación en Python, evaluado por una IA (Gemini) como tutor socrático.
 
