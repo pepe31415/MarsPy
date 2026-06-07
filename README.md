@@ -137,4 +137,4 @@ Cada nivel tiene un `threshold` (1-20). Si la puntuación obtenida ≥ threshold
 
 MarsPy está publicado bajo licencia [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-© 2025 Jose Maria Castillo
+© 2026 Jose Maria Castillo
