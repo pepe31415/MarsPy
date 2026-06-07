@@ -5,11 +5,12 @@ Bachillerato, Formación Profesional y Enseñanzas de Idiomas, titulado "Gamific
 la enseñanza básica de Python".
 
 Con la configuración inicial el juego está orientado a la ayuda para dar el salto de la programación por bloques a la programación
-textual a alumnos de 1º de Bachillerato (Asignatura de Ciencias de la computación I , en la Comunidad de Madrid)
+textual a alumnos de 1º de Bachillerato (Asignatura de Ciencias de la computación I , en la Comunidad de Madrid).
 
 UNAM. Universidad del Atlántico Medio
+
 Autor: José María Castillo Lara
-2026
+(c) 2026
 
 Un juego educativo tipo breakout donde cada nivel presenta un reto de programación en Python, evaluado por una IA (Gemini) como tutor socrático.
 
