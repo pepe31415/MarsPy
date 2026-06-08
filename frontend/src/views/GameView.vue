@@ -205,9 +205,9 @@
           </div>
           <h2 class="pass-title">ACCESO CONCEDIDO</h2>
           <p class="pass-subtitle">{{ currentLevel?.title }} — COMPLETADO</p>
-          <div v-if="lastScore !== null" class="pass-score">
-            <span class="pass-score-val">{{ lastScore }}</span>
-            <span class="pass-score-max">/20</span>
+          <div v-if="lastScoreWithBonus !== null" class="pass-score">
+            <span class="pass-score-val">{{ lastScoreWithBonus }}</span>
+            <span class="pass-score-max">{{ lastScoreWithBonus > 20 ? "/40" : "/20" }}</span>
           </div>
           <div v-if="newBadge" class="new-badge-award">
             <img
@@ -262,6 +262,7 @@ const consoleError = ref(false)
 const isExecuting = ref(false)
 const lastPassed = ref(false)
 const lastScore = ref<number | null>(null)
+const lastScoreWithBonus = ref<number | null>(null)   
 const displayResponse = ref('')
 const nextLevelNumber = ref<number | null>(null)
 const showPassOverlay = ref(false)
@@ -416,6 +417,7 @@ async function runCode() {
       const { cleanText, score, passed } = parseAiResponse(submission.aiResponse)
       displayResponse.value = cleanText
       lastScore.value = score
+      lastScoreWithBonus.value = submission.scoreWithBonus ?? score 
       lastPassed.value = passed
       nextLevelNumber.value = submission.nextLevelNumber
       hadError.value = !passed

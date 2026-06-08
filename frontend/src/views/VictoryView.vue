@@ -37,7 +37,7 @@
               class="badge-showcase-img"
               @error="handleImgError"
             />
-            <div class="badge-score">{{ badge.score }}/20</div>
+            <div class="badge-score">{{ badge.score }}</div>
             <div class="badge-showcase-name">{{ badge.badgeName }}</div>
           </div>
         </div>

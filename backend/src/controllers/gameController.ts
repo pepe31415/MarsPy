@@ -62,11 +62,21 @@ export const submitCode = async (req: Request, res: Response): Promise<void> => 
     // If passed, handle level progression
     let nextLevelNumber: number | null = null;
     let newTotalScore = player.totalScore; // inicializa con el valor actual
-
+    // puntuación base de la IA
+    let scoreToAdd = score ?? 0
     if (passed && score !== null) {
+ 
 
+      // Bonus por superar threshold en nivel principal
+      // Si el alumno va por el camino difícil se le compensan
+      // los puntos del nivel secundario que se salta
+      const nivelesPrincipales = [1, 3, 5, 7]
+      const superaThreshold = score >= level.threshold
+      if (nivelesPrincipales.includes(levelNumber) && superaThreshold) {
+        scoreToAdd = score + 20  // bonus equivalente al nivel secundario
+      }
       // Calcula el nuevo total una sola vez aquí
-      newTotalScore = player.totalScore + score;
+      newTotalScore = player.totalScore + scoreToAdd;
 
       // Badge de superación simple — se otorga siempre al pasar el nivel
       if (level.badgeCompletionImage && level.badgeCompletionName) {
@@ -80,7 +90,7 @@ export const submitCode = async (req: Request, res: Response): Promise<void> => 
             badgeImage: level.badgeCompletionImage,
             badgeName: level.badgeCompletionName,
             badgeType: 'completion' as const,
-            score,
+            score: scoreToAdd,
             earnedAt: new Date(),
           });
         }
@@ -98,7 +108,7 @@ export const submitCode = async (req: Request, res: Response): Promise<void> => 
             badgeImage: level.badgeThresholdImage,
             badgeName: level.badgeThresholdName,
             badgeType: 'threshold' as const,
-            score,
+            score: scoreToAdd,
             earnedAt: new Date(),
           });
         }
@@ -130,6 +140,7 @@ export const submitCode = async (req: Request, res: Response): Promise<void> => 
       nextLevelNumber,
       passed,
       totalScore: newTotalScore,
+      scoreWithBonus: scoreToAdd,
     });
 
   } catch (error) {

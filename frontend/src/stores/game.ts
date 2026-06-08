@@ -119,6 +119,7 @@ export const useGameStore = defineStore('game', () => {
         .replace('{{OUTPUT}}', consoleOutput)
         .replace('{{ObjetivoDidactico}}', level.objetivoDidactico || '')
         .replace('{{levelNumber}}', String(level.levelNumber))
+        .replace('{{threshold}}', String(level.threshold)) 
         .replace('{{title}}', level.title)
         .replace('{{scenarioDescription}}', level.scenarioDescription)
         .replace('{{initialCode}}', level.initialCode)
@@ -152,7 +153,9 @@ export const useGameStore = defineStore('game', () => {
         score,
         passed,
       })
-
+      // Usa scoreWithBonus si existe, si no usa el score de la IA
+      const finalScore = data.scoreWithBonus ?? score
+      lastScore.value = finalScore  // ← actualiza el score mostrado
       // Refresh state
       await refreshHistory()
       await loadBadges()
@@ -170,7 +173,8 @@ export const useGameStore = defineStore('game', () => {
 
       return {
         aiResponse,
-        score,
+        score: finalScore, // devuelve el score con el bonus
+        scoreWithBonus:  data.scoreWithBonus, // puntuacion con el bonus
         passed,
         nextLevelNumber: data.nextLevelNumber,
       }

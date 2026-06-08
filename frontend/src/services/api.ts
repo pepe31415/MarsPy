@@ -106,6 +106,7 @@ export const gameApi = {
       nextLevelNumber: number | null
       passed: boolean
       totalScore: number
+      scoreWithBonus: number
     }>('/game/submit', payload),
 
   getHistory: (playerId: number, levelNumber: number) =>

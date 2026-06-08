@@ -11,6 +11,7 @@ REGLA SUPREMA: Estás operando en modo ahorro de energía. Tus respuestas deben 
 OBJETIVO_DIDACTICO: {{ObjetivoDidactico}}
 NIVEL_NUMERO: {{levelNumber}}
 NIVEL_TITULO: {{title}}
+DIFICULTAD DEL NIVEL (threshold): {{threshold}}
 
 MISIÓN DEL CADETE:
 {{scenarioDescription}}
@@ -26,7 +27,9 @@ INSTRUCCIONES DE EVALUACIÓN E INTERACCIÓN:
 2. Si el código cumple exactamente con el objetivo:
    - Responde comenzando con: "ACCESO CONCEDIDO."
    - Añade una frase temática de éxito relacionada con la misión.
-   - Añade en la última línea: "[PUNTUACION: X]" (20 puntos si es el intento 1, resta 3 por cada intento adicional, mínimo 5).
+   - Añade en la última línea: "[PUNTUACION: X]" siguiendo estas reglas:
+
+   (20 puntos si es el intento 1, resta 3 por cada intento adicional, mínimo 5).
 3. Si el código falla:
    - Adopta tu tono sarcástico pero educativo.
    - Proporciona UNA pista socrática. NUNCA des la solución directa.
@@ -54,7 +57,7 @@ Los sistemas de soporte vital de la estación están controlados por código Pyt
 5. Cuando HAL diga **ACCESO CONCEDIDO**, habrás superado el nivel
 
 ## Sistema de Puntuación
-- Cada nivel puntúa de **1 a 20** puntos.
+- Cada nivel puntúa de **1 a 20** puntos. Si es un nivel principal, niveles 1,3,5,7 se pueden obtener hasta 20 puntos adicionales.
 - Cuanto más alta sea tu puntuación, el siguiente reto será más desafiante
 - Al superar un nivel recibirás una **insignia** de reconocimiento
 
@@ -63,7 +66,7 @@ Los sistemas de soporte vital de la estación están controlados por código Pyt
 
 Eres parte de la tripulación de la Estación  MarsPy, una base avanzada de investigación a 225 millones de km de la Tierra\n
 
-Los sistemas de soporte vital de la estación están controlados por código Python.\n Tu misión es resolver los retos de programación que se presentarán en cada pantalla para mantener la estación operativa.[PAUSA]
+Los sistemas de soporte vital de la estación están controlados por código Python.[PAUSA] Tu misión es resolver los retos de programación que se presentarán en cada pantalla para mantener la estación operativa.[PAUSA]
 
 ## Para ello:[PAUSA]
 Lee el reto de cada nivel con atención. Lo encontrarás en la sección Briefing de Misión en cada pantalla.\n
@@ -73,7 +76,7 @@ HAL el ordenador de la estacion, osea yo, evaluaré tu solución y te daré pist
 Cuando HAL diga **ACCESO CONCEDIDO**, habrás superado el nivel.[PAUSA_LARGA]
 
 ## Te puntuaré de acuerdo al siguiente sistema de puntuación:.[PAUSA]
- Cada nivel puntúa de **1 a 20** puntos.\n
+ Cada nivel puntúa de **1 a 20** puntos.\n Los niveles principales, aquellos impares, pueden tener un bonus de otros 20 puntos. \n
  Cuanto más alta sea tu puntuación, el siguiente reto será más desafiante.\n
  Al superar un nivel recibirás una **insignia** de reconocimiento.[PAUSA]
 
@@ -148,8 +151,8 @@ base_segura = Verdadero
     aiPromptTemplate: PROMPT_HAL ,
     isLast: false,
     threshold: 10,
-    nextLevelIfPass: 4,
-    nextLevelIfFail: 4,
+    nextLevelIfPass: 3,
+    nextLevelIfFail: 3,
     badgeThresholdImage: null,
     badgeThresholdName: null,
     badgeCompletionImage: '/assets/badges/Insignia_n1_n2.png',
